@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://QicongXie.github.io/end2endvc/ -->
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+  <title>DualVC 2: Dynamic Masked Convolution for Unified Streaming and Non-Streaming Voice Conversion</title>
+  <meta name="generator" content="Jekyll v3.9.0">
+  <meta property="og:title" content="TODO: title">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <!-- End Jekyll SEO tag -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1001.0" data-gr-ext-installed="">
+  <section class="page-header">
+    <!-- <h1 class="project-name">Demo PAGE</h1> -->
+    <!-- <h2 class="project-tagline"></h2> -->
+
+
+  </section>
+
+  <section class="main-content">
+    <h1 id="">
+      <center>DualVC 2: Dynamic Masked Convolution for Unified Streaming and Non-Streaming Voice Conversion</center>
+    </h1>
+
+    <center>Ziqian Ning<sup>1, 2</sup>, Yuepeng Jiang<sup>1</sup>, Pengcheng Zhu<sup>2</sup>, Shuai Wang<sup>3</sup>, Jixun Yao<sup>1</sup>, Lei Xie<sup>1</sup>, Mengxiao Bi<sup>2</sup></center>
+    <center><a href="http://www.npu-aslp.org"><sup>1</sup>Audio, Speech and Language Processing Group (ASLP@NPU), School of Computer Science,</br>Northwestern Polytechnical University, Xi'an, China </a></center>
+    <center><a href="https://fuxi.163.com/laboratory"><sup>2</sup>Fuxi AI Lab, NetEase Inc., Hangzhou, China </a></center>
+    <center><a href="http://www.sribd.cn/en"><sup>3</sup>Shenzhen Research Institute of Big Data,</br>The Chinese University of Hong Kong, Shenzhen (CUHK-Shenzhen), China</a></center>
+
+    <br><br>
+    <h2 id="abstract">1. Abstract<a name="abstract"></a></h2>
+    <p>Voice conversion is becoming increasingly popular, and a growing number of application scenarios require models with streaming inference capabilities. The recently proposed DualVC attempts to achieve this objective through streaming model architecture design and intra-model knowledge distillation along with hybrid predictive coding to compensate for the lack of future information. 
+      However, DualVC encounters several problems that limit its performance. First, the autoregressive decoder has error accumulation in its nature and limits the inference speed as well. Second, the causal convolution enables streaming capability but cannot sufficiently use future information within chunks. Third, the model is unable to effectively address the noise in the unvoiced segments, lowering the sound quality.
+In this paper, we propose DualVC 2 to address these issues. Specifically, the model backbone is migrated to a Conformer-based architecture, empowering parallel inference. Causal convolution is replaced by non-causal convolution with dynamic chunk mask to make better use of within-chunk future information. Also, quiet attention is introduced to enhance the model's noise robustness.
+Experiments show that DualVC 2 outperforms DualVC and other baseline systems in both subjective and objective metrics, with only 186.4 ms latency.
+    </p>
+
+    <table frame=void rules=none>
+      <tr>
+        <center><img src='raw/fig/overall.png'></center>
+      </tr>
+      <tr>
+      </tr>
+    </table>
+    <br><br>
+
+    <h2 id="abstract">2. Demo -- Real-time voice conversion in real RTC scenario<a name="abstract"></a></h2>
+    <center>
+    <video width="720" height="480" controls>
+      <source src="raw/demo.mp4" type="video/mp4">
+    </video>
+    </center>
+
+    <h2>3. Demo  -- Recordings<a name="Comparison"></a></h2>
+    <ul>
+      <li>DualVC nonstreaming: Non-streaming mode of our previous proposed model [1] .</li>
+      <li>DualVC streaming: Streaming mode of our previous proposed model [1] .</li>
+      <li>IBF-VC: Reinplement [2] using the backbone model.</li>
+      <li>DualVC 2 nonstreaming: Non-streaming mode of DualVC 2.</li>
+      <li>DualVC 2 streaming: Streaming mode of DualVC 2.</li>
+    </ul>
+
+    <table>
+      <tbody id="tbody">
+      </tbody>
+    </table> 
+
+    </br>
+    <cite>[1] Z. Ning, Y. Jiang, P. Zhu, J. Yao, S. Wang, L. Xie, and M. Bi, “Dualvc: Dual-mode voice conversion using intra-model knowledge distillation and hybrid predictive coding,” CoRR, vol. abs/2305.12425, 2023.</cite>
+    </br>
+    <cite>[2] Y. Chen, M. Tu, T. Li, X. Li, Q. Kong, J. Li, Z. Wang, Q. Tian, Y. Wang, and Y. Wang, “Streaming voice conversion via intermediate bottleneck features and non-streaming teacher guidance,” CoRR, vol. abs/2210.15158, 202</cite>
+  </section>
+</body>
+
+</html>
+
+<script type="" text/javascript>
+  window.onload = function () {
+    let scenes = ["Clean", "Noisy"]
+    let speakers = ["female", "male"]
+    let genders = ["female", "male"]
+    let models = ["IBF-VC", "DualVC-nonstreaming", "DualVC-streaming", "DualVC2-nonstreaming", "DualVC2-streaming"]
+    let all_samples = [["2.wav", "biaobei_8316010.wav", "iqiyi_700_700623.wav", "robo100_068_068349.wav"], 
+                    ["Y0000019527_oMwYDEEBw0g_S00489.wav", "Y0000019576_oVD68qz-Rrw_S00095.wav", "Y0000019687_omf0WUsolCc_S00328.wav", "Y0000019715_orYS2WEgb1o_S00100.wav"]]
+    let sample_data = `
+        <tr>
+          <td style="text-align: center; width: 150px;" rowspan=2><strong>Scenario<strong></td>
+          <td style="text-align: center; width: 150px;" rowspan=2><strong>Target Speaker<strong></td>
+          <td style="text-align: center; width: 150px;" rowspan=2><strong>Source speech<strong></td>
+          <td style="text-align: center; width: 150px;" colspan=5><strong>Method<strong></td>
+        </tr>
+        <tr>
+        `
+    for (const id in models) {
+      model = models[id]
+      if (model == 'Baseline') {
+        model = 'IBF-VC'
+      }
+      sample_data += '<td style="text-align: center; width: 150px;" rowspan=1><strong>' + model + '<strong></td>'
+    }
+    sample_data += "</tr>"
+    console.log(sample_data)
+    
+    for (let x in scenes) {
+      let scene = scenes[x]
+      let scene_data = ""
+      scene_data += '<tr>'
+      scene_data += '<td style="text-align: center; width: 150px;" rowspan=' + 8 + '><strong>' + scene + ' Source' + '<strong></td>'
+      let samples = all_samples[x]
+      console.log(scene, samples)
+      for (let y in speakers) {
+        speaker = speakers[y]
+        gender = genders[y]
+        scene_data += '<td style="text-align: center; width: 150px;" rowspan=4>' + gender + '<audio style="width: 150px;"controls="" src="raw/samples/speakers/' + speaker + '.wav"></td>'
+        for (let z in samples) {
+          if (z != 0) {
+            scene_data += '<tr>'
+          }
+          let sample = samples[z]
+          scene_data += '<td style="text-align: center"><audio style="width: 150px;" controls="" src="raw/samples/' + scene + '/source/' + sample + '"></audio></td>'
+          for (let w in models) {
+            let model = models[w]
+            scene_data += '<td style="text-align: center"><audio style="width: 150px;" controls="" src="raw/samples/' + scene + '/' + model + '/' + speaker + '/' + sample + '"></audio></td>'
+          }
+          scene_data += '</tr>'
+        }
+      }
+      sample_data += scene_data
+    }
+    document.getElementById('tbody').innerHTML = sample_data
+  }
+</script>

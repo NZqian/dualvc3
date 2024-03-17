@@ -29,20 +29,13 @@
 
   <section class="main-content">
     <h1 id="">
-      <center>DualVC 2: Dynamic Masked Convolution for Unified Streaming and Non-Streaming Voice Conversion</center>
+      <center>DualVC 3: Leveraging Language Model Generated Pseudo Context for End-to-end Low Latency Streaming Voice Conversion</center>
     </h1>
 
-    <center>Ziqian Ning<sup>1, 2</sup>, Yuepeng Jiang<sup>1</sup>, Pengcheng Zhu<sup>2</sup>, Shuai Wang<sup>3</sup>, Jixun Yao<sup>1</sup>, Lei Xie<sup>1</sup>, Mengxiao Bi<sup>2</sup></center>
-    <center><a href="http://www.npu-aslp.org"><sup>1</sup>Audio, Speech and Language Processing Group (ASLP@NPU), School of Computer Science,</br>Northwestern Polytechnical University, Xi'an, China </a></center>
-    <center><a href="https://fuxi.163.com/laboratory"><sup>2</sup>Fuxi AI Lab, NetEase Inc., Hangzhou, China </a></center>
-    <center><a href="http://www.sribd.cn/en"><sup>3</sup>Shenzhen Research Institute of Big Data,</br>The Chinese University of Hong Kong, Shenzhen (CUHK-Shenzhen), China</a></center>
-
+    <center><h2>Anonymous submission to Interspeech 2024</h2></center>
     <br><br>
     <h2 id="abstract">1. Abstract<a name="abstract"></a></h2>
-    <p>Voice conversion is becoming increasingly popular, and a growing number of application scenarios require models with streaming inference capabilities. The recently proposed DualVC attempts to achieve this objective through streaming model architecture design and intra-model knowledge distillation along with hybrid predictive coding to compensate for the lack of future information. 
-      However, DualVC encounters several problems that limit its performance. First, the autoregressive decoder has error accumulation in its nature and limits the inference speed as well. Second, the causal convolution enables streaming capability but cannot sufficiently use future information within chunks. Third, the model is unable to effectively address the noise in the unvoiced segments, lowering the sound quality.
-In this paper, we propose DualVC 2 to address these issues. Specifically, the model backbone is migrated to a Conformer-based architecture, empowering parallel inference. Causal convolution is replaced by non-causal convolution with dynamic chunk mask to make better use of within-chunk future information. Also, quiet attention is introduced to enhance the model's noise robustness.
-Experiments show that DualVC 2 outperforms DualVC and other baseline systems in both subjective and objective metrics, with only 186.4 ms latency.
+    <p>Streaming voice conversion has become increasingly popular for its potential in real-time applications. The recently proposed DualVC 2 has achieved robust and high-quality streaming voice conversion with a latency of about 180ms. Nonetheless, the recognition-synthesis framework hinders end-to-end optimization, and the instability of automatic speech recognition (ASR) model with short chunks makes it challenging to further reduce latency. To address these issues, we propose an end-to-end model, DualVC 3. With speaker-independent semantic tokens to guide the training of the content encoder, the dependency on ASR is removed and the model can operate under extremely small chunks, with cascading errors eliminated. A language model is trained on the content encoder output to produce pseudo context by iteratively predicting future frames, providing more contextual information for the decoder to improve conversion quality. Experimental results demonstrate that DualVC 3 achieves comparable performance to DualVC 2 in subjective and objective metrics, with a latency of only 50 ms.
     </p>
 
     <table frame=void rules=none>
@@ -54,20 +47,13 @@ Experiments show that DualVC 2 outperforms DualVC and other baseline systems in 
     </table>
     <br><br>
 
-    <h2 id="abstract">2. Demo -- Real-time voice conversion in real RTC scenario<a name="abstract"></a></h2>
-    <center>
-    <video width="720" height="480" controls>
-      <source src="raw/demo.mp4" type="video/mp4">
-    </video>
-    </center>
-
-    <h2>3. Demo  -- Recordings<a name="Comparison"></a></h2>
+    <h2>2. Demo<a name="Comparison"></a></h2>
     <ul>
-      <li>DualVC nonstreaming: Non-streaming mode of our previous proposed model [1] .</li>
-      <li>DualVC streaming: Streaming mode of our previous proposed model [1] .</li>
-      <li>IBF-VC: Reinplement [2] using the backbone model.</li>
-      <li>DualVC 2 nonstreaming: Non-streaming mode of DualVC 2.</li>
-      <li>DualVC 2 streaming: Streaming mode of DualVC 2.</li>
+      <li>DualVC2: Streaming mode of DualVC 2 [1].</li>
+      <li>VQMIVC: Non-streaming mode of VQMIVC [2].</li>
+      <li>VQMIVC-streaming: Streaming mode of VQMIVC.</li>
+      <li>DualVC3-full: Full mode of DualVC 3.</li>
+      <li>DualVC3-standalone: Standalone mode of DualVC 3.</li>
     </ul>
 
     <table>
@@ -76,9 +62,9 @@ Experiments show that DualVC 2 outperforms DualVC and other baseline systems in 
     </table> 
 
     </br>
-    <cite>[1] Z. Ning, Y. Jiang, P. Zhu, J. Yao, S. Wang, L. Xie, and M. Bi, “Dualvc: Dual-mode voice conversion using intra-model knowledge distillation and hybrid predictive coding,” CoRR, vol. abs/2305.12425, 2023.</cite>
+    <cite>[1] Z. Ning, Y. Jiang, P. Zhu, S. Wang, J. Yao, L. Xie, and M. Bi, “Dualvc 2: Dynamic masked convolution for unified streaming and non-streaming voice conversion,” in Proc. ICASSP. IEEE, 2024, pp. 1–5.</cite>
     </br>
-    <cite>[2] Y. Chen, M. Tu, T. Li, X. Li, Q. Kong, J. Li, Z. Wang, Q. Tian, Y. Wang, and Y. Wang, “Streaming voice conversion via intermediate bottleneck features and non-streaming teacher guidance,” CoRR, vol. abs/2210.15158, 202</cite>
+    <cite>[2] D. Wang, L. Deng, Y. T. Yeung, X. Chen, X. Liu, and H. Meng, “VQMIVC: vector quantization and mutual information-based unsupervised speech representation disentanglement for one-shot voice conversion,” in Proc. INTERSPEECH. ISCA, 2021, pp. 1344–1348.</cite>
   </section>
 </body>
 
@@ -86,15 +72,14 @@ Experiments show that DualVC 2 outperforms DualVC and other baseline systems in 
 
 <script type="" text/javascript>
   window.onload = function () {
-    let scenes = ["Clean", "Noisy"]
+    let scenes = ["Clean"]
     let speakers = ["female", "male"]
     let genders = ["female", "male"]
-    let models = ["IBF-VC", "DualVC-nonstreaming", "DualVC-streaming", "DualVC2-nonstreaming", "DualVC2-streaming"]
-    let all_samples = [["2.wav", "biaobei_8316010.wav", "iqiyi_700_700623.wav", "robo100_068_068349.wav"], 
-                    ["Y0000019527_oMwYDEEBw0g_S00489.wav", "Y0000019576_oVD68qz-Rrw_S00095.wav", "Y0000019687_omf0WUsolCc_S00328.wav", "Y0000019715_orYS2WEgb1o_S00100.wav"]]
+    let models = ["DualVC2", "VQMIVC", "VQMIVC-streaming", "DualVC3-full", "DualVC3-standalone"]
+    let all_samples = [["SSB00430070.wav", "SSB02460443.wav", "SSB03230482.wav", "SSB03410353.wav", "SSB03750317.wav", "SSB04700097.wav", "SSB05900051.wav", "SSB07100255.wav", "SSB07100388.wav", "SSB08170086.wav",], 
+                    ["SSB00430070.wav", "SSB02460443.wav", "SSB03230482.wav", "SSB03410353.wav", "SSB03750317.wav", "SSB04700097.wav", "SSB05900051.wav", "SSB07100255.wav", "SSB07100388.wav", "SSB08170086.wav",]]
     let sample_data = `
         <tr>
-          <td style="text-align: center; width: 150px;" rowspan=2><strong>Scenario<strong></td>
           <td style="text-align: center; width: 150px;" rowspan=2><strong>Target Speaker<strong></td>
           <td style="text-align: center; width: 150px;" rowspan=2><strong>Source speech<strong></td>
           <td style="text-align: center; width: 150px;" colspan=5><strong>Method<strong></td>
@@ -115,13 +100,13 @@ Experiments show that DualVC 2 outperforms DualVC and other baseline systems in 
       let scene = scenes[x]
       let scene_data = ""
       scene_data += '<tr>'
-      scene_data += '<td style="text-align: center; width: 150px;" rowspan=' + 8 + '><strong>' + scene + ' Source' + '<strong></td>'
+      //scene_data += '<td style="text-align: center; width: 150px;" rowspan=' + 8 + '><strong>' + scene + ' Source' + '<strong></td>'
       let samples = all_samples[x]
       console.log(scene, samples)
       for (let y in speakers) {
         speaker = speakers[y]
         gender = genders[y]
-        scene_data += '<td style="text-align: center; width: 150px;" rowspan=4>' + gender + '<audio style="width: 150px;"controls="" src="raw/samples/speakers/' + speaker + '.wav"></td>'
+        scene_data += '<td style="text-align: center; width: 150px;" rowspan=10>' + gender + '<audio style="width: 150px;"controls="" src="raw/samples/speakers/' + speaker + '.wav"></td>'
         for (let z in samples) {
           if (z != 0) {
             scene_data += '<tr>'

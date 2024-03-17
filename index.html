@@ -47,6 +47,68 @@
     </table>
     <br><br>
 
+    <h2>2. Computational Metrics</h2>
+    <ul>
+      <table>
+  <tbody>
+    <tr>
+      <td></td>
+      <td>RTF</td>
+      <td>Latency (ms)</td>
+      <td>Params (M)</td>
+    </tr>
+    <tr>
+      <td>Full mode</td>
+      <td>0.797</td>
+      <td>15.94+20+20=55.94</td>
+      <td>22.7</td>
+    </tr>
+    <tr>
+      <td>&emsp;AM (w/ 2 pseudo ctx)</td>
+      <td>0.201</td>
+      <td>4.02</td>
+      <td>10.9</td>
+    </tr>
+    <tr>
+      <td>&emsp;Vocoder (w/ 2 pseudo ctx)</td>
+      <td>0.086</td>
+      <td>1.72</td>
+      <td>1.2</td>
+    </tr>
+    <tr>
+      <td>&emsp;LM</td>
+      <td>0.510</td>
+      <td>10.20</td>
+      <td>10.6</td>
+    </tr>
+    <tr>
+      <td>Stand-alone mode</td>
+      <td>0.181</td>
+      <td>3.58+20+20=43.58</td>
+      <td>12.1</td>
+    </tr>
+    <tr>
+      <td>&emsp;AM (w/o pseudo ctx)</td>
+      <td>0.134</td>
+      <td>2.68</td>
+      <td>10.9</td>
+    </tr>
+    <tr>
+      <td>&emsp;Vocoder (w/o pseudo ctx)</td>
+      <td>0.047</td>
+      <td>0.90</td>
+      <td>1.2</td>
+    </tr>
+  </tbody>
+  <colgroup>
+    <col>
+    <col>
+    <col>
+    <col>
+  </colgroup>
+</table>
+    </ul>
+
     <h2>2. Demo<a name="Comparison"></a></h2>
     <ul>
       <li>DualVC2: Streaming mode of DualVC 2 [1].</li>

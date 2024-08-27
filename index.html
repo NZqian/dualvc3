@@ -32,7 +32,11 @@
       <center>DualVC 3: Leveraging Language Model Generated Pseudo Context for End-to-end Low Latency Streaming Voice Conversion</center>
     </h1>
 
-    <center><h2>Anonymous submission to Interspeech 2024</h2></center>
+    <center>Ziqian Ning<sup>1, 2</sup>, Shuai Wang<sup>3</sup>, Pengcheng Zhu<sup>2</sup>, Zhichao Wang<sup>1</sup>, Jixun Yao<sup>1</sup>, Lei Xie<sup>1</sup>, Mengxiao Bi<sup>2</sup></center>
+    <center><a href="http://www.npu-aslp.org"><sup>1</sup>Audio, Speech and Language Processing Group (ASLP@NPU), School of Computer Science,</br>Northwestern Polytechnical University, Xi'an, China </a></center>
+    <center><a href="https://fuxi.163.com/laboratory"><sup>2</sup>Fuxi AI Lab, NetEase Inc., Hangzhou, China </a></center>
+    <center><a href="http://www.sribd.cn/en"><sup>3</sup>Shenzhen Research Institute of Big Data,</br>The Chinese University of Hong Kong, Shenzhen (CUHK-Shenzhen), China</a></center>
+
     <br><br>
     <h2 id="abstract">1. Abstract<a name="abstract"></a></h2>
     <p>Streaming voice conversion has become increasingly popular for its potential in real-time applications. The recently proposed DualVC 2 has achieved robust and high-quality streaming voice conversion with a latency of about 180ms. Nonetheless, the recognition-synthesis framework hinders end-to-end optimization, and the instability of automatic speech recognition (ASR) model with short chunks makes it challenging to further reduce latency. To address these issues, we propose an end-to-end model, DualVC 3. With speaker-independent semantic tokens to guide the training of the content encoder, the dependency on ASR is removed and the model can operate under extremely small chunks, with cascading errors eliminated. A language model is trained on the content encoder output to produce pseudo context by iteratively predicting future frames, providing more contextual information for the decoder to improve conversion quality. Experimental results demonstrate that DualVC 3 achieves comparable performance to DualVC 2 in subjective and objective metrics, with a latency of only 50 ms.
